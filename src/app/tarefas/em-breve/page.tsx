@@ -1,8 +1,8 @@
 
-export default function Home() {
+export default function EmBreve() {
   return (
     <div className="flex h-full items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      Página principal
+      Página em breve
     </div>
   );
 }
