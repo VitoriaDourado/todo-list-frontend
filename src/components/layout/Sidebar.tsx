@@ -1,25 +1,41 @@
 import Image from "next/image";
+import { X, Menu } from "lucide-react";
 
-export default function Sidebar(){
-  return(
-    <aside className="w-64 bg-zinc-900 text-white h-screen p-4">
-      <div className="flex items-center mb-4 gap-4">
-        <Image
-          className="dark:invert"
-          src="/globe.svg"
-          alt="Next.js logo"
-          width={30}
-          height={30}
-          priority
-        />
-        <h1>Nome do Usuário</h1>
-      </div>
+interface SidebarProps {
+  isOpen: boolean;
+  toggle: () => void;
+}
 
-      <nav className="flex flex-col gap-4 mt-8">
-        <button className="text-left cursor-pointer">Hoje</button>
-        <button className="text-left cursor-pointer">Em breve</button>
-        <button className="text-left cursor-pointer">Projetos</button>
-      </nav>
+export default function Sidebar({ isOpen, toggle }: SidebarProps) {
+  return (
+    <aside
+      className={`bg-zinc-900 text-white h-screen p-4 transition-all duration-300 ${
+        isOpen ? "w-64" : "w-16"
+      }`}
+    >
+      <button onClick={toggle} className="mb-6 cursor-pointer">
+        {isOpen ? <X /> : <Menu />}
+      </button>
+
+      {isOpen && (
+        <>
+          <div className="flex items-center gap-4 mb-8">
+            <Image
+              src="/globe.svg"
+              alt="Logo"
+              width={30}
+              height={30}
+            />
+            <h1>Nome do Usuário</h1>
+          </div>
+
+          <nav className="flex flex-col gap-4">
+            <button className="text-left">Hoje</button>
+            <button className="text-left">Em breve</button>
+            <button className="text-left">Projetos</button>
+          </nav>
+        </>
+      )}
     </aside>
-  )
+  );
 }
