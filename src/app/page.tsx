@@ -1,14 +1,33 @@
-import { TaskList } from "../components/tasks/TaskList";
+'use client'
+
+import { TaskList } from '../components/tasks/TaskList'
+import { useTasks } from '../hooks/useTasks'
+import { isToday } from '../services/date.utils'
 
 export default function Home() {
+  const { tasks, loading, toggleTask, removeTask } = useTasks()
+
+  const todayTasks = tasks.filter(task =>
+    isToday(task.createdAt)
+  )
+
   return (
     <div>
-      <div className="bg-black text-white items-center justify-center flex pt-5">
+      <div className="bg-black text-white flex items-center justify-center pt-5">
         Minhas tasks
       </div>
+
       <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-        <TaskList />
+        {loading ? (
+          <p>Carregando...</p>
+        ) : (
+          <TaskList
+            tasks={tasks}
+            onToggle={toggleTask}
+            onRemove={removeTask}
+          />
+        )}
       </div>
     </div>
-  );
+  )
 }
