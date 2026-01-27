@@ -34,6 +34,7 @@ export default function Sidebar({ isOpen, toggle }: SidebarProps) {
 
           <nav className="flex flex-col h-screen justify-between">
             <div className="flex flex-col gap-4 mt-8">
+              <Link href={"/"} className="text-left cursor-pointer">Todas as tarefas</Link>
               <Link href={"/tarefas/hoje"} className="text-left cursor-pointer">Hoje</Link>
               <Link href={"/tarefas/em-breve"} className="text-left cursor-pointer">Em breve</Link>
               <Link href={"/tarefas/projetos"} className="text-left cursor-pointer">Projetos</Link>
