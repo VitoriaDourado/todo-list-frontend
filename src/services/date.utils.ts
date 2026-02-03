@@ -18,3 +18,13 @@ export function isToday(dateString: string) {
     date.getFullYear() === today.getFullYear()
   );
 }
+
+export function isFuture(date: string) {
+  const d = new Date(date)
+  const today = new Date()
+
+  today.setHours(0, 0, 0, 0)
+  d.setHours(0, 0, 0, 0)
+
+  return d > today
+}
