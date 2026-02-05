@@ -39,6 +39,7 @@ export default function Sidebar({ isOpen, toggle }: SidebarProps) {
               <Link href={"/tarefas/em-breve"} className="text-left cursor-pointer">Em breve</Link>
               <Link href={"/tarefas/projetos"} className="text-left cursor-pointer">Projetos</Link>
               <Link href={"/tarefas/arquivados"} className="text-left cursor-pointer">Arquivados</Link>
+              <Link href={"/users"} className="text-left cursor-pointer">Usuários</Link>
             </div>
             <div className="flex items-center mb-4 mt-auto justify-center">
               <Image
