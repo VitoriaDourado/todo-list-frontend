@@ -1,5 +1,11 @@
 import { API_URL } from './api'
 
+interface UpdateTodoListDto {
+  title?: string;
+  description?: string;
+  status?: boolean;
+}
+
 export async function login(email: string, password: string) {
   const response = await fetch(`${API_URL}/auth/login`, {
     method: 'POST',
@@ -24,4 +30,37 @@ export async function getUsers(){
     throw new Error('Erro ao buscar usuários')
   }
   return response.json()
+}
+
+
+export async function createTodo(id: number, title: string) {
+  const response = await fetch(`${API_URL}/todo-list/${id}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ title }),
+  })
+
+  if (!response.ok) {
+    throw new Error('Erro ao criar todo')
+  }
+
+  return response.json()
+}
+
+export async function updateTodo(id: number, data: UpdateTodoListDto) {
+  const response = await fetch(`${API_URL}/todo-list/${id}`, {
+    method: 'PATCH', 
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data),
+  });
+  return response.json();
+}
+
+export async function deleteTodo(id: number) {
+  const response = await fetch(`${API_URL}/todo-list/${id}`, {
+    method: 'DELETE',
+  });
+  return response.json();
 }
