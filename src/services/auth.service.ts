@@ -32,14 +32,13 @@ export async function getUsers(){
   return response.json()
 }
 
-
-export async function createTodo(id: number, title: string) {
-  const response = await fetch(`${API_URL}/todo-list/${id}`, {
+export async function createTodo(data: CreateTodoDto) {
+  const response = await fetch(`${API_URL}/todo-list`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ title }),
+    body: JSON.stringify(data),
   })
 
   if (!response.ok) {
