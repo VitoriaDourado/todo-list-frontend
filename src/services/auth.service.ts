@@ -32,6 +32,16 @@ export async function getUsers(){
   return response.json()
 }
 
+export async function getTodos() {
+  const response = await fetch(`${API_URL}/todo-list`)
+
+  if (!response.ok) {
+    throw new Error('Erro ao buscar tarefas')
+  }
+
+  return response.json()
+}
+
 export async function createTodo(data: CreateTodoDto) {
   const response = await fetch(`${API_URL}/todo-list`, {
     method: 'POST',
