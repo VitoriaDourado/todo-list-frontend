@@ -5,6 +5,10 @@ interface UpdateTodoListDto {
   description?: string;
   status?: boolean;
 }
+interface CreateTodoDto {
+  title: string;
+  description: string;
+}
 
 export async function login(email: string, password: string) {
   const response = await fetch(`${API_URL}/auth/login`, {
@@ -22,6 +26,21 @@ export async function login(email: string, password: string) {
   return response.json()
 }
 
+export async function register(name: string, email: string, password: string) {
+  const response = await fetch(`${API_URL}/auth/register`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ name, email, password }),
+  })
+
+  if (!response.ok) {
+    throw new Error('Erro ao criar conta')
+  }
+
+  return response.json()
+}
 
 export async function getUsers(){
   const response = await fetch(`${API_URL}/users`)
