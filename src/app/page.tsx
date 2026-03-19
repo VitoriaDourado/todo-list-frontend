@@ -12,7 +12,8 @@ export default function Home() {
     if (!token) {
       router.push("/login");
     }
+
   }, []);
 
-  return <div>Home protegida</div>;
+  return router.push("/dashboard/users");;
 }

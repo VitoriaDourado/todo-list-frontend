@@ -1,7 +1,7 @@
 'use client'
 
-import { useEffect, useState } from 'react'
-import { getUsers } from '../../services/auth.service'
+import { useEffect, useState } from 'react';
+import { getUsers } from '@/src/services/auth.service';
 
 interface User {
   id: string
@@ -18,6 +18,7 @@ export default function UsersPage() {
     getUsers()
       .then(data => setUsers(data))
       .finally(() => setLoading(false))
+      console.log(users)
   }, [])
 
   if (loading) {
