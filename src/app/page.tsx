@@ -15,5 +15,5 @@ export default function Home() {
 
   }, []);
 
-  return router.push("/dashboard/users");;
+  return router.push("/dashboard/users");
 }
