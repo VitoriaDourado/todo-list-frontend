@@ -1,7 +1,10 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import { X, Menu } from "lucide-react";
-
+import { useEffect, useState } from "react";
+import { getUser } from "@/src/services/auth.service";
 
 interface SidebarProps {
   isOpen: boolean;
@@ -9,10 +12,27 @@ interface SidebarProps {
 }
 
 export default function Sidebar({ isOpen, toggle }: SidebarProps) {
+  const [name, setName] = useState<string>("");
+
+  useEffect(() => {
+    async function fetchUser() {
+      try {
+        const data = await getUser();
+        setName(data.firstName);
+        console.log(data);
+      } catch (error) {
+        console.error("Erro ao buscar usuário", error);
+      }
+    }
+
+    fetchUser();
+  }, []);
+
   return (
     <aside
-      className={`bg-zinc-900 text-white h-screen p-4 transition-all duration-300 ${isOpen ? "w-64" : "w-16"
-        }`}
+      className={`bg-zinc-900 text-white h-screen p-4 transition-all duration-300 ${
+        isOpen ? "w-64" : "w-16"
+      }`}
     >
       <button onClick={toggle} className="mb-6 cursor-pointer">
         {isOpen ? <X /> : <Menu />}
@@ -29,19 +49,21 @@ export default function Sidebar({ isOpen, toggle }: SidebarProps) {
               height={30}
               priority
             />
-            <h1>remyklo</h1>
+
+            <h1>{name || "..."}</h1>
           </div>
 
           <nav className="flex flex-col h-screen justify-between">
             <div className="flex flex-col gap-4 mt-8">
-              <Link href={"/"} className="text-left cursor-pointer">Todas as tarefas</Link>
-              <Link href={"/tarefas/hoje"} className="text-left cursor-pointer">Hoje</Link>
-              <Link href={"/tarefas/em-breve"} className="text-left cursor-pointer">Em breve</Link>
-              <Link href={"/tarefas/projetos"} className="text-left cursor-pointer">Projetos</Link>
-              <Link href={"/tarefas/criar-tarefas"} className="text-left cursor-pointer">Criar tarefa</Link>
-              <Link href={"/tarefas/arquivados"} className="text-left cursor-pointer">Arquivados</Link>
-              <Link href={"/dashboard/users"} className="text-left cursor-pointer">Usuários</Link>
+              <Link href={"/"}>Todas as tarefas</Link>
+              <Link href={"/tarefas/hoje"}>Hoje</Link>
+              <Link href={"/tarefas/em-breve"}>Em breve</Link>
+              <Link href={"/tarefas/projetos"}>Projetos</Link>
+              <Link href={"/tarefas/criar-tarefas"}>Criar tarefa</Link>
+              <Link href={"/tarefas/arquivados"}>Arquivados</Link>
+              <Link href={"/dashboard/users"}>Usuários</Link>
             </div>
+
             <div className="flex items-center mb-4 mt-auto justify-center">
               <Image
                 className="dark:invert"
@@ -51,12 +73,11 @@ export default function Sidebar({ isOpen, toggle }: SidebarProps) {
                 height={60}
                 priority
               />
-
-              <Link href={"/lixeira"} className="text-center cursor-pointer">Lixeira</Link>
+              <Link href={"/lixeira"}>Lixeira</Link>
             </div>
           </nav>
         </>
       )}
     </aside>
-  )
+  );
 }
