@@ -1,19 +1,34 @@
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import ProtectedRoute from './components/ProtectedRoute';
 
-// Importe suas páginas (ajuste os caminhos conforme sua estrutura)
 import Login from './app/login/page';
-import TarefasHoje from './app/tarefas/hoje/page';
-import TarefasTudo from "./app/tarefas/page";
+import TarefasHoje from './app/dashboard/tarefas/hoje/page';
+import TarefasTudo from "./app/dashboard/tarefas/page";
 import Teste from './app/page';
 
 export function AppRoutes() {
+  const token = localStorage.getItem('@App:token');
+  console.log('AppRoutes renderizou');
+
+
   return (
     <Routes>
+      {/* entrada do app */}
+      <Route
+        path="/"
+        element={
+          localStorage.getItem('@App:token')
+            ? <Navigate to="/tarefas/hoje" />
+            : <Navigate to="/login" />
+        }
+      />
+
+      {/* login */}
       <Route path="/login" element={<Login />} />
+
+      {/* protegidas */}
       <Route element={<ProtectedRoute />}>
         <Route path="/tarefas/hoje" element={<TarefasHoje />} />
-        <Route path="/" element={<TarefasTudo />} />
         <Route path="/teste" element={<Teste />} />
       </Route>
     </Routes>

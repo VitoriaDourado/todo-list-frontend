@@ -1,8 +1,8 @@
 'use client'
 
-import { TaskList } from '../../../components/tasks/TaskList'
-import { useTasks } from '../../../hooks/useTasks'
-import { isFuture } from '../../../services/date.utils'
+import { TaskList } from '../../../../components/tasks/TaskList'
+import { useTasks } from '../../../../hooks/useTasks'
+import { isFuture } from '../../../../services/date.utils'
 
 export default function HojePage() {
   const { tasks, loading, toggleTask, removeTask } = useTasks()

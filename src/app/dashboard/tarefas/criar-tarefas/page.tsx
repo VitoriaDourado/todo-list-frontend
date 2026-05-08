@@ -1,8 +1,8 @@
 'use client'
 
-import { useTasks } from '../../../hooks/useTasks';
+import { useTasks } from '../../../../hooks/useTasks';
 import { useState } from 'react';
-import { isFuture } from '../../../services/date.utils';
+import { isFuture } from '../../../../services/date.utils';
 import { CreateTask } from '@/src/components/tarefa/CreateTask';
 
 export default function CriarTarefas() {
