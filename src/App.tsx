@@ -18,7 +18,7 @@ export function AppRoutes() {
         path="/"
         element={
           localStorage.getItem('@App:token')
-            ? <Navigate to="/tarefas/hoje" />
+            ? <Navigate to="dashboard/tarefas/hoje" />
             : <Navigate to="/login" />
         }
       />
@@ -28,8 +28,8 @@ export function AppRoutes() {
 
       {/* protegidas */}
       <Route element={<ProtectedRoute />}>
-        <Route path="/tarefas/hoje" element={<TarefasHoje />} />
-        <Route path="/teste" element={<Teste />} />
+        <Route path="dashboard/tarefas/hoje" element={<TarefasHoje />} />
+        <Route path="dashboard/teste" element={<Teste />} />
       </Route>
     </Routes>
   );
