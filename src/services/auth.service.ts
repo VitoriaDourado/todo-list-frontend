@@ -51,6 +51,22 @@ export async function getUsers(){
   return response.json()
 }
 
+export async function getUser() {
+  const token = localStorage.getItem('token');
+
+  const response = await fetch(`${API_URL}/auth/user`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error('Erro ao buscar usuário');
+  }
+
+  return response.json();
+}
+
 export async function getTodos() {
   const response = await fetch(`${API_URL}/todo-list`)
 
