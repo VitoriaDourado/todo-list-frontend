@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { X, Menu } from "lucide-react";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { getUser } from "@/src/services/auth.service";
 
 interface SidebarProps {
@@ -13,13 +14,13 @@ interface SidebarProps {
 
 export default function Sidebar({ isOpen, toggle }: SidebarProps) {
   const [name, setName] = useState<string>("");
+  const router = useRouter();
 
   useEffect(() => {
     async function fetchUser() {
       try {
         const data = await getUser();
-        setName(data.firstName);
-        console.log(data);
+        setName(data.name);
       } catch (error) {
         console.error("Erro ao buscar usuário", error);
       }
@@ -27,6 +28,17 @@ export default function Sidebar({ isOpen, toggle }: SidebarProps) {
 
     fetchUser();
   }, []);
+
+  function handleLogout() {
+    // Remove o token salvo no login
+    localStorage.removeItem("@App:token");
+    localStorage.clear();
+    // Limpa o nome do usuário (opcional)
+    setName("");
+
+    // Redireciona para a página de login
+    router.push("/login");
+  }
 
   return (
     <aside
@@ -55,13 +67,20 @@ export default function Sidebar({ isOpen, toggle }: SidebarProps) {
 
           <nav className="flex flex-col h-screen justify-between">
             <div className="flex flex-col gap-4 mt-8">
-              <Link href={"/"}>Todas as tarefas</Link>
-              <Link href={"/tarefas/hoje"}>Hoje</Link>
-              <Link href={"/tarefas/em-breve"}>Em breve</Link>
-              <Link href={"/tarefas/projetos"}>Projetos</Link>
-              <Link href={"/tarefas/criar-tarefas"}>Criar tarefa</Link>
-              <Link href={"/tarefas/arquivados"}>Arquivados</Link>
-              <Link href={"/dashboard/users"}>Usuários</Link>
+              <Link href="/">Todas as tarefas</Link>
+              <Link href="/tarefas/hoje">Hoje</Link>
+              <Link href="/tarefas/em-breve">Em breve</Link>
+              <Link href="/tarefas/projetos">Projetos</Link>
+              <Link href="/tarefas/criar-tarefas">Criar tarefa</Link>
+              <Link href="/tarefas/arquivados">Arquivados</Link>
+              <Link href="/dashboard/users">Usuários</Link>
+
+              <button
+                onClick={handleLogout}
+                className="text-left text-red-400 hover:text-red-300 mt-4 cursor-pointer"
+              >
+                Sair
+              </button>
             </div>
 
             <div className="flex items-center mb-4 mt-auto justify-center">
@@ -73,7 +92,7 @@ export default function Sidebar({ isOpen, toggle }: SidebarProps) {
                 height={60}
                 priority
               />
-              <Link href={"/lixeira"}>Lixeira</Link>
+              <Link href="/lixeira">Lixeira</Link>
             </div>
           </nav>
         </>
