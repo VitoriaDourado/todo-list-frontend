@@ -1,29 +1,40 @@
 "use client";
 
 import { useState } from "react";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import Sidebar from "./Sidebar";
 
-interface LayoutShellProps {
+export default function LayoutShell({
+  children,
+}: {
   children: React.ReactNode;
-}
-
-export default function LayoutShell({ children }: LayoutShellProps) {
-  const [isOpen, setIsOpen] = useState(false);
+}) {
+  const router = useRouter();
   const pathname = usePathname();
+  const [isOpen, setIsOpen] = useState(true);
 
-  const hideSidebar = pathname.startsWith("/login");
+  function toggleSidebar() {
+    setIsOpen(!isOpen);
+  }
+
+  const token =
+    typeof window !== "undefined"
+      ? localStorage.getItem("@App:token")
+      : null;
+
+  if (!token) {
+    if (pathname !== "/login") {
+      router.replace("/login");
+    }
+
+    return null;
+  }
 
   return (
     <div className="flex min-h-screen">
-      {!hideSidebar && (
-        <Sidebar
-          isOpen={isOpen}
-          toggle={() => setIsOpen(prev => !prev)}
-        />
-      )}
+      <Sidebar isOpen={isOpen} toggle={toggleSidebar} />
 
-      <main className="flex-1 bg-zinc-50">
+      <main className="flex-1 p-6">
         {children}
       </main>
     </div>
