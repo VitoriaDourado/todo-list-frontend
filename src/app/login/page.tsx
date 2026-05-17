@@ -15,9 +15,10 @@ export default function LoginPage() {
     try {
       const data = await login(email, password)
 
-      localStorage.setItem('token', data.access_token)
+      // Use a mesma chave utilizada no restante da aplicação
+      localStorage.setItem('@App:token', data.access_token)
 
-      router.push('/dashboard/tarefas/hoje') 
+      router.push('/dashboard/tarefas/hoje')
     } catch (error) {
       alert('Email ou senha inválidos')
     }
@@ -27,9 +28,9 @@ export default function LoginPage() {
     <div className="flex min-h-screen items-center justify-center bg-black">
       <form
         onSubmit={handleLogin}
-        className="flex flex-col gap-3 bg-white p-6 rounded shadow"
+        className="flex flex-col gap-3 bg-white p-6 rounded shadow w-96"
       >
-        <h2 className="text-xl font-bold text-black">Login</h2>
+        <h2 className="text-xl font-bold text-black text-center">Login</h2>
 
         <input
           type="email"
@@ -49,9 +50,17 @@ export default function LoginPage() {
 
         <button
           type="submit"
-          className="bg-black text-white p-2 rounded"
+          className="bg-black text-white p-2 rounded cursor-pointer"
         >
           Entrar
+        </button>
+
+        <button
+          type="button"
+          onClick={() => router.push('/cadastre')}
+          className="text-blue-600 hover:underline text-sm cursor-pointer"
+        >
+          Não tenho conta
         </button>
       </form>
     </div>
