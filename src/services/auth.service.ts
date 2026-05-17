@@ -52,7 +52,7 @@ export async function getUsers(){
 }
 
 export async function getUser() {
-  const token = localStorage.getItem('token');
+  const token = localStorage.getItem('@App:token');
 
   const response = await fetch(`${API_URL}/auth/user`, {
     headers: {
