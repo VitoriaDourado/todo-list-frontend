@@ -68,12 +68,12 @@ export default function Sidebar({ isOpen, toggle }: SidebarProps) {
           <nav className="flex flex-col h-screen justify-between">
             <div className="flex flex-col gap-4 mt-8">
               <Link href="/">Todas as tarefas</Link>
-              <Link href="/tarefas/hoje">Hoje</Link>
-              <Link href="/tarefas/em-breve">Em breve</Link>
-              <Link href="/tarefas/projetos">Projetos</Link>
-              <Link href="/tarefas/criar-tarefas">Criar tarefa</Link>
-              <Link href="/tarefas/arquivados">Arquivados</Link>
-              <Link href="/dashboard/users">Usuários</Link>
+              <Link href="/dashboard/tarefas/hoje">Hoje</Link>
+              <Link href="/dashboard/tarefas/em-breve">Em breve</Link>
+              <Link href="/dashboard/tarefas/projetos">Projetos</Link>
+              <Link href="/dashboard/tarefas/criar-tarefas">Criar tarefa</Link>
+              <Link href="/dashboard/tarefas/arquivados">Arquivados</Link>
+              <Link href="/dashboard/tarefas/users">Usuários</Link>
 
               <button
                 onClick={handleLogout}
