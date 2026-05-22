@@ -67,7 +67,7 @@ export default function Sidebar({ isOpen, toggle }: SidebarProps) {
 
           <nav className="flex flex-col h-screen justify-between">
             <div className="flex flex-col gap-4 mt-8">
-              <Link href="/">Todas as tarefas</Link>
+              <Link href="/dashboard/tarefas/">Todas as tarefas</Link>
               <Link href="/dashboard/tarefas/hoje">Hoje</Link>
               <Link href="/dashboard/tarefas/em-breve">Em breve</Link>
               <Link href="/dashboard/tarefas/projetos">Projetos</Link>
