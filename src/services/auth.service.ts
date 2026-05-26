@@ -68,29 +68,41 @@ export async function getUser() {
 }
 
 export async function getTodos() {
-  const response = await fetch(`${API_URL}/todo-list`)
+  const token = localStorage.getItem('@App:token');
+
+  const response = await fetch(`${API_URL}/todo-list`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
 
   if (!response.ok) {
-    throw new Error('Erro ao buscar tarefas')
+    throw new Error('Erro ao buscar tarefas');
   }
 
-  return response.json()
+  return response.json();
 }
 
 export async function createTodo(data: CreateTodoDto) {
+  const token = localStorage.getItem('@App:token');
+
   const response = await fetch(`${API_URL}/todo-list`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify(data),
-  })
+  });
 
   if (!response.ok) {
-    throw new Error('Erro ao criar todo')
+    const errorData = await response.json();
+    console.error(errorData);
+
+    throw new Error('Erro ao criar todo');
   }
 
-  return response.json()
+  return response.json();
 }
 
 export async function updateTodo(id: number, data: UpdateTodoListDto) {
