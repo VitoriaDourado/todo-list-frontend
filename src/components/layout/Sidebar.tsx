@@ -2,8 +2,20 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { X, Menu } from "lucide-react";
-import { useEffect, useState } from "react";
+import {
+  X,
+  Menu,
+  Home,
+  Calendar,
+  Clock,
+  Folder,
+  PlusSquare,
+  Archive,
+  Users,
+  Trash2,
+  LogOut,
+  User,
+} from "lucide-react";import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { getUser } from "@/src/services/auth.service";
 
@@ -42,57 +54,111 @@ export default function Sidebar({ isOpen, toggle }: SidebarProps) {
 
   return (
     <aside
-      className={`bg-zinc-900 text-white h-screen p-4 transition-all duration-300 ${
+      className={`bg-zinc-950 border-r border-zinc-800 text-white h-screen p-4 transition-all duration-300 ${
         isOpen ? "w-64" : "w-16"
       }`}
     >
-      <button onClick={toggle} className="mb-6 cursor-pointer">
+      <button
+        onClick={toggle}
+        className="mb-6 cursor-pointer hover:bg-zinc-800 p-2 rounded-lg"
+      >
         {isOpen ? <X /> : <Menu />}
       </button>
 
       {isOpen && (
         <>
-          <div className="flex items-center mb-4 gap-4">
-            <Image
-              className="dark:invert"
-              src="/globe.svg"
-              alt="Next.js logo"
-              width={30}
-              height={30}
-              priority
-            />
+          {/* Usuário */}
+          <div className="flex items-center gap-3 mb-8 border-b border-zinc-800 pb-4">
+            <div className="w-10 h-10 rounded-full bg-zinc-800 flex items-center justify-center">
+              <User size={20} />
+            </div>
 
-            <h1>{name || "..."}</h1>
+            <div>
+              <p className="text-xs text-zinc-400">
+                Bem-vinda
+              </p>
+
+              <h2 className="font-semibold">
+                {name || "..."}
+              </h2>
+            </div>
           </div>
 
-          <nav className="flex flex-col h-screen justify-between">
-            <div className="flex flex-col gap-4 mt-8">
-              <Link href="/dashboard/tarefas/">Todas as tarefas</Link>
-              <Link href="/dashboard/tarefas/hoje">Hoje</Link>
-              <Link href="/dashboard/tarefas/em-breve">Em breve</Link>
-              <Link href="/dashboard/tarefas/projetos">Projetos</Link>
-              <Link href="/dashboard/tarefas/criar-tarefas">Criar tarefa</Link>
-              <Link href="/dashboard/tarefas/arquivados">Arquivados</Link>
-              <Link href="/dashboard/tarefas/users">Usuários</Link>
+          <nav className="flex flex-col justify-between h-[calc(100%-120px)]">
+            <div className="flex flex-col gap-2">
+              <Link
+                href="/dashboard/tarefas"
+                className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-zinc-800 transition"
+              >
+                <Home size={18} />
+                Todas as tarefas
+              </Link>
+
+              <Link
+                href="/dashboard/tarefas/hoje"
+                className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-zinc-800 transition"
+              >
+                <Calendar size={18} />
+                Hoje
+              </Link>
+
+              <Link
+                href="/dashboard/tarefas/em-breve"
+                className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-zinc-800 transition"
+              >
+                <Clock size={18} />
+                Em breve
+              </Link>
+
+              <Link
+                href="/dashboard/tarefas/projetos"
+                className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-zinc-800 transition"
+              >
+                <Folder size={18} />
+                Projetos
+              </Link>
+
+              <Link
+                href="/dashboard/tarefas/criar-tarefas"
+                className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-zinc-800 transition"
+              >
+                <PlusSquare size={18} />
+                Criar tarefa
+              </Link>
+
+              <Link
+                href="/dashboard/tarefas/arquivados"
+                className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-zinc-800 transition"
+              >
+                <Archive size={18} />
+                Arquivados
+              </Link>
+
+              <Link
+                href="/dashboard/tarefas/users"
+                className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-zinc-800 transition"
+              >
+                <Users size={18} />
+                Usuários
+              </Link>
+            </div>
+
+            <div className="flex flex-col gap-2">
+              <Link
+                href="/lixeira"
+                className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-zinc-800 transition"
+              >
+                <Trash2 size={18} />
+                Lixeira
+              </Link>
 
               <button
                 onClick={handleLogout}
-                className="text-left text-red-400 hover:text-red-300 mt-4 cursor-pointer"
+                className="flex items-center gap-3 px-3 py-2 rounded-lg bg-red-500/10 text-red-400 hover:bg-red-500/20 transition cursor-pointer"
               >
+                <LogOut size={18} />
                 Sair
               </button>
-            </div>
-
-            <div className="flex items-center mb-4 mt-auto justify-center">
-              <Image
-                className="dark:invert"
-                src="/trash.svg"
-                alt="trash bin"
-                width={60}
-                height={60}
-                priority
-              />
-              <Link href="/lixeira">Lixeira</Link>
             </div>
           </nav>
         </>
