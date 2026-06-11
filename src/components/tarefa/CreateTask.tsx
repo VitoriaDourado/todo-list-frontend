@@ -2,6 +2,12 @@
 
 import { useState } from 'react'
 import { createTodo } from '../../services/auth.service'
+import {
+  X,
+  FileText,
+  ClipboardList,
+  CheckCircle2
+} from 'lucide-react'
 
 interface CreateTaskProps {
   onClose: () => void
@@ -12,6 +18,7 @@ export function CreateTask({ onClose }: CreateTaskProps) {
   const [description, setDescription] = useState('')
   const [done, setDone] = useState(false)
   const [loading, setLoading] = useState(false)
+  const [dueDate, setDueDate] = useState('');
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
@@ -25,6 +32,7 @@ export function CreateTask({ onClose }: CreateTaskProps) {
         title,
         description,
         status: done,
+        dueDate,
       })
 
       onClose() 
@@ -37,54 +45,142 @@ export function CreateTask({ onClose }: CreateTaskProps) {
 
   return (
     <div
-      className="fixed inset-0 bg-black/50 flex items-center justify-center z-50"
-      onClick={onClose} 
+      className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50"
+      onClick={onClose}
     >
       <div
-        className="bg-white dark:bg-zinc-900 p-6 rounded-xl w-full max-w-md shadow-lg"
-        onClick={(e) => e.stopPropagation()} 
+        className="
+          bg-white
+          dark:bg-zinc-900
+          rounded-3xl
+          w-full
+          max-w-lg
+          p-8
+          shadow-2xl
+          border
+          border-zinc-200
+          dark:border-zinc-800
+        "
+        onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex justify-between items-center mb-4">
-          <h2 className="text-lg font-semibold">Criar Tarefa</h2>
+        <div className="flex justify-between items-center mb-8">
+          <div>
+            <h2 className="text-2xl font-bold">
+              Nova tarefa
+            </h2>
+
+            <p className="text-zinc-500 text-sm">
+              Preencha os dados abaixo
+            </p>
+          </div>
+
           <button
             onClick={onClose}
-            className="text-red-500 font-bold cursor-pointer"
+            className="cursor-pointer"
           >
-            ✕
+            <X />
           </button>
         </div>
 
-        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-          <input
-            type="text"
-            placeholder="Nome da tarefa"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            className="border p-2 rounded-md"
-          />
+        <form
+          onSubmit={handleSubmit}
+          className="flex flex-col gap-5"
+        >
+          <div>
+            <label className="flex items-center gap-2 mb-2 font-medium">
+              <ClipboardList size={18} />
+              Título
+            </label>
 
-          <textarea
-            placeholder="Descrição da tarefa"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            className="border p-2 rounded-md resize-none"
-          />
+            <input
+              type="text"
+              placeholder="Ex: Estudar NestJS"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              className="
+                w-full
+                border
+                border-zinc-300
+                dark:border-zinc-700
+                p-3
+                rounded-xl
+              "
+            />
+          </div>
 
-          <label className="flex items-center gap-2">
+          <div>
+            <label className="flex items-center gap-2 mb-2 font-medium">
+              <FileText size={18} />
+              Descrição
+            </label>
+
+            <textarea
+              placeholder="Detalhes da tarefa..."
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              rows={4}
+              className="
+                w-full
+                border
+                border-zinc-300
+                dark:border-zinc-700
+                p-3
+                rounded-xl
+                resize-none
+              "
+            />
+          </div>
+
+          <div>
+            <label className="flex items-center gap-2 mb-2 font-medium">
+              📅 Data de entrega
+            </label>
+
+            <input
+              type="datetime-local"
+              value={dueDate}
+              onChange={(e) => setDueDate(e.target.value)}
+              className="
+                w-full
+                border
+                border-zinc-300
+                dark:border-zinc-700
+                p-3
+                rounded-xl
+              "
+            />
+          </div>
+
+          <label className="flex items-center gap-3">
             <input
               type="checkbox"
               checked={done}
               onChange={(e) => setDone(e.target.checked)}
             />
-            Marcar como concluída
+
+            <span className="flex items-center gap-2">
+              <CheckCircle2 size={18} />
+              Criar já concluída
+            </span>
           </label>
 
           <button
             type="submit"
             disabled={loading}
-            className="bg-black text-white p-2 rounded-md hover:opacity-80 transition"
+            className="
+              bg-blue-600
+              hover:bg-blue-700
+              text-white
+              py-3
+              rounded-xl
+              font-medium
+              transition
+              cursor-pointer
+            "
           >
-            {loading ? 'Criando...' : 'Criar Tarefa'}
+            {loading
+              ? 'Criando tarefa...'
+              : 'Criar tarefa'}
           </button>
         </form>
       </div>
