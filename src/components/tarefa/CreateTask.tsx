@@ -32,6 +32,7 @@ export function CreateTask({ onClose }: CreateTaskProps) {
         title,
         description,
         status: done,
+        dueDate,
       })
 
       onClose() 
