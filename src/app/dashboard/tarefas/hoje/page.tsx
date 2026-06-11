@@ -1,33 +1,111 @@
-'use client'
+'use client';
 
-import { TaskList } from '../../../../components/tasks/TaskList'
-import { useTasks } from '../../../../hooks/useTasks'
-import { isToday } from '../../../../services/date.utils'
+import { useEffect, useState } from 'react';
+import {
+  CheckCircle2,
+  Clock3,
+  Calendar,
+} from 'lucide-react';
+
+import { getTodos } from '@/src/services/auth.service';
+
+interface Todo {
+  id: number;
+  title: string;
+  description: string;
+  status: boolean;
+  createdAt: string;
+  dueDate?: string;
+}
 
 export default function HojePage() {
-  const { tasks, loading, toggleTask, removeTask } = useTasks()
+  const [todos, setTodos] = useState<Todo[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  const todayTasks = tasks.filter(task =>
-    isToday(task.createdAt)
-  )
+  useEffect(() => {
+    async function fetchTodos() {
+      try {
+        const data = await getTodos();
+
+        const today = new Date();
+
+        const todayTodos = data.filter((todo: Todo) => {
+          if (!todo.dueDate) return false;
+
+          const dueDate = new Date(todo.dueDate);
+
+          return (
+            dueDate.getDate() === today.getDate() &&
+            dueDate.getMonth() === today.getMonth() &&
+            dueDate.getFullYear() === today.getFullYear()
+          );
+        });
+
+        setTodos(todayTodos);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchTodos();
+  }, []);
+
+  function formatDate(date: string) {
+    return new Date(date).toLocaleString('pt-BR', {
+      dateStyle: 'short',
+      timeStyle: 'short',
+    });
+  }
+
+  if (loading) {
+    return <p>Carregando...</p>;
+  }
 
   return (
-    <div>
-      <div className="bg-black text-white flex items-center justify-center pt-5">
-        Minhas tasks de hoje
-      </div>
+    <div className="p-8 min-h-screen bg-zinc-100 dark:bg-black">
+      <h1 className="text-3xl font-bold mb-6">
+        Tarefas de hoje
+      </h1>
 
-      <div className="flex min-h-screen items-center justify-center bg-zinc-50 dark:bg-black">
-        {loading ? (
-          <p>Carregando...</p>
-        ) : (
-          <TaskList
-            tasks={todayTasks}
-            onToggle={toggleTask}
-            onRemove={removeTask}
-          />
-        )}
-      </div>
+      {todos.length === 0 ? (
+        <div className="bg-white dark:bg-zinc-900 rounded-xl p-6">
+          Nenhuma tarefa para hoje 🎉
+        </div>
+      ) : (
+        <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+          {todos.map((todo) => (
+            <div
+              key={todo.id}
+              className="bg-white dark:bg-zinc-900 p-5 rounded-2xl shadow"
+            >
+              <div className="flex justify-between">
+                <h2 className="font-bold">
+                  {todo.title}
+                </h2>
+
+                {todo.status ? (
+                  <CheckCircle2 className="text-green-500" />
+                ) : (
+                  <Clock3 className="text-yellow-500" />
+                )}
+              </div>
+
+              <p className="mt-3 text-zinc-500">
+                {todo.description}
+              </p>
+
+              {todo.dueDate && (
+                <div className="flex items-center gap-2 mt-4 text-orange-500">
+                  <Calendar size={14} />
+                  {formatDate(todo.dueDate)}
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      )}
     </div>
-  )
+  );
 }
