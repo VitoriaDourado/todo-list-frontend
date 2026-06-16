@@ -11,6 +11,7 @@ import {
 import {
   getTodos,
   updateTodo,
+  deleteTodo,
 } from '@/src/services/auth.service';
 
 
@@ -62,6 +63,15 @@ export default function Tarefas() {
     setEditTitle(todo.title);
     setEditDescription(todo.description);
     setEditStatus(todo.status);
+  }
+
+  async function handleDelete(id: number) {
+    try {
+      await deleteTodo(id);
+      setTodos((prev) => prev.filter((todo) => todo.id !== id));
+    } catch (error) {
+      console.error('Erro ao excluir tarefa', error);
+    }
   }
 
   async function handleUpdate() {
@@ -155,10 +165,9 @@ export default function Tarefas() {
               "
             >
               <div className="flex justify-between items-start">
-                <h2 className="font-bold text-lg">
+                <h2 className="font-bold text-lg truncate cursor-pointer" title={todo.title}>
                   {todo.title}
                 </h2>
-
                 <div
                   className={`flex items-center gap-2 px-3 py-1 rounded-full text-sm ${
                     todo.status
@@ -178,7 +187,7 @@ export default function Tarefas() {
                 </div>
               </div>
 
-              <p className="text-zinc-500 mt-3">
+              <p className="text-zinc-500 mt-3 line-clamp-2">
                 {todo.description}
               </p>
 
@@ -217,6 +226,7 @@ export default function Tarefas() {
                 </button>
 
                 <button
+                  onClick={() => handleDelete(todo.id)}
                   className="
                     flex-1
                     flex items-center justify-center gap-2
