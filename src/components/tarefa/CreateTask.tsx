@@ -19,11 +19,22 @@ export function CreateTask({ onClose }: CreateTaskProps) {
   const [done, setDone] = useState(false)
   const [loading, setLoading] = useState(false)
   const [dueDate, setDueDate] = useState('');
+  const [error, setError] = useState('');
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
 
-    if (!title.trim()) return
+    if (!title.trim()) {
+      setError('O título é obrigatório.');
+      return;
+    }
+
+    if (title.length < 50) {
+      setError('O título deve ter pelo menos 50 caracteres.');
+      return;
+    }
+
+    setError('');
 
     try {
       setLoading(true)
@@ -97,6 +108,7 @@ export function CreateTask({ onClose }: CreateTaskProps) {
               placeholder="Ex: Estudar NestJS"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
+              maxLength={50}
               className="
                 w-full
                 border
@@ -118,6 +130,7 @@ export function CreateTask({ onClose }: CreateTaskProps) {
               placeholder="Detalhes da tarefa..."
               value={description}
               onChange={(e) => setDescription(e.target.value)}
+              maxLength={500}
               rows={4}
               className="
                 w-full
@@ -129,6 +142,11 @@ export function CreateTask({ onClose }: CreateTaskProps) {
                 resize-none
               "
             />
+            <p className="text-xs text-zinc-400 text-right mt-1">
+              {description.length}/500 caracteres
+            </p>
+
+            {error && <p className="text-red-500 text-sm">{error}</p>}
           </div>
 
           <div>
