@@ -119,22 +119,22 @@ export default function Tarefas() {
         </p>
       </div>
 
-      <div className="flex gap-4 mb-8 flex-wrap">
-        <div className="bg-white dark:bg-zinc-900 p-4 rounded-xl shadow">
+      <div className="flex gap-4 mb-8 flex-wrap max-w-lg">
+        <div className="bg-white dark:bg-zinc-900 p-4 rounded-xl shadow basis-0 flex-1">
           <p className="text-sm text-zinc-500">Total</p>
           <h2 className="text-2xl font-bold">
             {todos.length}
           </h2>
         </div>
 
-        <div className="bg-white dark:bg-zinc-900 p-4 rounded-xl shadow">
+        <div className="bg-white dark:bg-zinc-900 p-4 rounded-xl shadow basis-0 flex-1">
           <p className="text-sm text-zinc-500">Pendentes</p>
           <h2 className="text-2xl font-bold text-yellow-500">
             {todos.filter(todo => !todo.status).length}
           </h2>
         </div>
 
-        <div className="bg-white dark:bg-zinc-900 p-4 rounded-xl shadow">
+        <div className="bg-white dark:bg-zinc-900 p-4 rounded-xl shadow basis-0 flex-1">
           <p className="text-sm text-zinc-500">Concluídas</p>
           <h2 className="text-2xl font-bold text-green-500">
             {todos.filter(todo => todo.status).length}
