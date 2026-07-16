@@ -34,11 +34,13 @@ export default function Tarefas() {
   const [editTitle, setEditTitle] = useState('');
   const [editDescription, setEditDescription] = useState('');
   const [editStatus, setEditStatus] = useState(false);
+  const [editDueDate, setEditDueDate] = useState('');
 
   useEffect(() => {
     async function fetchTodos() {
       try {
         const data = await getTodos();
+        console.log('Tarefas carregadas:', data);
         setTodos(data);
       } catch (error) {
         console.error('Erro ao buscar tarefas', error);
@@ -63,6 +65,12 @@ export default function Tarefas() {
     setEditTitle(todo.title);
     setEditDescription(todo.description);
     setEditStatus(todo.status);
+
+    setEditDueDate(
+      todo.dueDate
+        ? new Date(todo.dueDate).toISOString().slice(0, 16)
+        : ''
+    );
   }
 
   async function handleDelete(id: number) {
@@ -287,6 +295,19 @@ export default function Tarefas() {
                 Concluída
               </label>
 
+              <div className="flex flex-col gap-2 text-sm text-zinc-500">
+                <div className="flex items-center gap-2">
+                  <Calendar size={16} />
+                  Criada: {formatDate(editingTodo.createdAt)}
+                </div>
+
+                {editingTodo.dueDate && (
+                  <div className="flex items-center gap-2 text-orange-500">
+                    <Calendar size={16} />
+                    Data de Entrega: {formatDate(editingTodo.dueDate)}
+                  </div>
+                )}
+              </div>
               <div className="flex justify-end gap-2 mt-4">
                 <button
                   onClick={() => setEditingTodo(null)}
