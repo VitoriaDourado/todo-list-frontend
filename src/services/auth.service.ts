@@ -83,6 +83,22 @@ export async function getTodos() {
   return response.json();
 }
 
+export async function getArchivedTodos() {
+  const token = localStorage.getItem('@App:token');
+
+  const response = await fetch(`${API_URL}/todo-list/archived`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error('Erro ao buscar tarefas arquivadas');
+  }
+
+  return response.json();
+}
+
 export async function createTodo(data: CreateTodoDto) {
   const token = localStorage.getItem('@App:token');
 
