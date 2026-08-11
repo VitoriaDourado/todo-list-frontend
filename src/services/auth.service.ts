@@ -70,17 +70,31 @@ export async function getUser() {
 export async function getTodos() {
   const token = localStorage.getItem('@App:token');
 
-  const response = await fetch(`${API_URL}/todo-list`, {
+  const response = await fetch(`${API_URL}/graphql`, {
+    method: 'POST',
     headers: {
+      'Content-Type': 'application/json',
       Authorization: `Bearer ${token}`,
     },
+    body: JSON.stringify({
+      query: `
+        query {
+          todoLists {
+            id
+            title
+            description
+            status
+            dueDate
+            createdAt
+          }
+        }
+      `,
+    }),
   });
 
-  if (!response.ok) {
-    throw new Error('Erro ao buscar tarefas');
-  }
+  const result = await response.json();
 
-  return response.json();
+  return result.data.todoLists;
 }
 
 export async function getArchivedTodos() {
